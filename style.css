@@ -312,3 +312,139 @@ body {
 .cart-overlay.open {
     display: block;
 }
+.chemical-drum {
+  width: 140px;
+  height: 200px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+.chemical-drum:hover, .chemical-drum.selected {
+  transform: rotateY(15deg) scale(1.08);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.drum-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 140px;
+  height: 30px;
+  border-radius: 50%;
+  z-index: 5;
+  border: 2px solid rgba(0,0,0,0.15);
+}
+
+.drum-body {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 140px;
+  height: 170px;
+  border-radius: 0 0 50% 50% / 0 0 15px 15px;
+  border: 2px solid rgba(0,0,0,0.15);
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-family: monospace;
+  box-shadow: inset 0 20px 20px rgba(255,255,255,0.15), inset 0 -20px 20px rgba(0,0,0,0.2);
+}
+
+.drum-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 140px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,0,0,0.15);
+  z-index: 1;
+}
+
+.drum-flammable .drum-top {
+  background: #f87171;
+}
+.drum-flammable .drum-body {
+  background: linear-gradient(90deg, #b91c1c 0%, #ef4444 30%, #f87171 50%, #ef4444 70%, #b91c1c 100%);
+}
+.drum-flammable .drum-bottom {
+  background: #b91c1c;
+}
+
+.drum-toxic .drum-top {
+  background: #facc15;
+}
+.drum-toxic .drum-body {
+  background: linear-gradient(90deg, #a16207 0%, #eab308 30%, #facc15 50%, #eab308 70%, #a16207 100%);
+}
+.drum-toxic .drum-bottom {
+  background: #a16207;
+}
+
+.drum-safe .drum-top {
+  background: #34d399;
+}
+.drum-safe .drum-body {
+  background: linear-gradient(90deg, #047857 0%, #10b981 30%, #34d399 50%, #10b981 70%, #047857 100%);
+}
+.drum-safe .drum-bottom {
+  background: #047857;
+}
+
+.drum-band {
+  position: absolute;
+  width: 100%;
+  height: 10px;
+  background: rgba(0,0,0,0.2);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+.drum-band-1 { top: 50px; }
+.drum-band-2 { bottom: 90px; }
+
+.hazard-diamond {
+  width: 32px;
+  height: 32px;
+  background: white;
+  border: 2px solid black;
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  z-index: 2;
+}
+.hazard-diamond i {
+  transform: rotate(-45deg);
+  font-size: 14px;
+}
+.drum-flammable .hazard-diamond i { color: #ef4444; }
+.drum-toxic .hazard-diamond i { color: black; }
+.drum-safe .hazard-diamond i { color: #10b981; }
+
+.drum-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+  word-wrap: break-word;
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 4px 6px;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+

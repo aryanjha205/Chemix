@@ -28,17 +28,41 @@ async function fetchInventory() {
         if (!response.ok) throw new Error('Network response was not ok');
         inventory = await response.json();
     } catch (error) {
-        console.warn('Backend API not available, falling back to mock data.', error);
-        // Fallback for Vercel deployment without backend access
-        inventory = [
-            { id: '1', product_code: 'ETH-01', chemical_name: 'Ethanol Absolute (99.9%)', category: 'Solvent', selling_price: 1500.00 },
-            { id: '2', product_code: 'SUL-02', chemical_name: 'Sulfuric Acid (98%)', category: 'Acid', selling_price: 850.50 },
-            { id: '3', product_code: 'IPA-03', chemical_name: 'Isopropyl Alcohol', category: 'Solvent', selling_price: 1200.00 },
-            { id: '4', product_code: 'GLY-04', chemical_name: 'Glycerin (Refined)', category: 'Raw Material', selling_price: 450.00 },
-            { id: '5', product_code: 'ACE-05', chemical_name: 'Acetone (Industrial)', category: 'Solvent', selling_price: 900.00 },
-            { id: '6', product_code: 'NAOH-06', chemical_name: 'Sodium Hydroxide Flakes', category: 'Base', selling_price: 600.00 }
-        ];
+        console.error('Failed to fetch inventory:', error);
+        DOM.productsGrid.innerHTML = `
+            <div class="loading" style="color: #ef4444;">
+                Failed to load products from API. Please ensure your backend is accessible.
+            </div>
+        `;
     }
+}
+
+function getDrumHTML(name, hazardClass) {
+    let drumClass = 'drum-safe';
+    let icon = 'fa-leaf';
+    
+    if (hazardClass && hazardClass.toLowerCase().includes('flammable')) {
+        drumClass = 'drum-flammable';
+        icon = 'fa-fire';
+    } else if (hazardClass && hazardClass.toLowerCase().includes('toxic')) {
+        drumClass = 'drum-toxic';
+        icon = 'fa-skull-crossbones';
+    }
+
+    return `
+        <div class="chemical-drum ${drumClass}" style="margin: 0 auto 1.5rem auto; transform: scale(0.85); transform-origin: top center;">
+            <div class="drum-top"></div>
+            <div class="drum-body">
+                <div class="drum-band drum-band-1"></div>
+                <div class="hazard-diamond">
+                    <i class="fa-solid ${icon}"></i>
+                </div>
+                <div class="drum-label">${escapeHTML(name)}</div>
+                <div class="drum-band drum-band-2"></div>
+            </div>
+            <div class="drum-bottom"></div>
+        </div>
+    `;
 }
 
 function renderProducts() {
@@ -55,10 +79,8 @@ function renderProducts() {
         const category = product.category || 'General';
 
         return `
-            <div class="product-card">
-                <div class="product-icon">
-                    <i class="fa-solid fa-flask"></i>
-                </div>
+            <div class="product-card" style="text-align: center;">
+                ${getDrumHTML(name, product.hazard_class)}
                 <h3 class="product-title">${escapeHTML(name)}</h3>
                 <div class="product-meta">
                     <span><strong>Code:</strong> ${escapeHTML(code)}</span>
