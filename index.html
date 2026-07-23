@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChemStore | Premium Chemical Supplies</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fa-solid fa-flask"></i>
+                <span>ChemStore</span>
+            </div>
+            <div class="cart-icon" id="cartBtn">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Premium Industrial Chemicals</h1>
+            <p>Browse our catalog of high-quality raw materials, lab chemicals, and finished products.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be injected here via JS -->
+            <div class="loading">Loading products from inventory...</div>
+        </div>
+    </main>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-btn" id="closeCartBtn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items injected here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">₹0.00</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">
+                <i class="fa-brands fa-whatsapp"></i> Checkout via WhatsApp
+            </button>
+        </div>
+    </div>
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
