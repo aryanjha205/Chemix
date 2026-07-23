@@ -1,7 +1,7 @@
 let inventory = [];
 let cart = [];
 
-const API_URL = 'http://localhost:8000/api/inventory/public';
+const API_URL = 'https://catalyst-ai-pink.vercel.app/api/inventory/public';
 const WHATSAPP_NUMBER = '9835089300';
 
 const DOM = {
