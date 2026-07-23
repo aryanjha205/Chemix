@@ -28,12 +28,16 @@ async function fetchInventory() {
         if (!response.ok) throw new Error('Network response was not ok');
         inventory = await response.json();
     } catch (error) {
-        console.error('Failed to fetch inventory:', error);
-        DOM.productsGrid.innerHTML = `
-            <div class="loading" style="color: #ef4444;">
-                Failed to load products. Please make sure the backend API is running.
-            </div>
-        `;
+        console.warn('Backend API not available, falling back to mock data.', error);
+        // Fallback for Vercel deployment without backend access
+        inventory = [
+            { id: '1', product_code: 'ETH-01', chemical_name: 'Ethanol Absolute (99.9%)', category: 'Solvent', selling_price: 1500.00 },
+            { id: '2', product_code: 'SUL-02', chemical_name: 'Sulfuric Acid (98%)', category: 'Acid', selling_price: 850.50 },
+            { id: '3', product_code: 'IPA-03', chemical_name: 'Isopropyl Alcohol', category: 'Solvent', selling_price: 1200.00 },
+            { id: '4', product_code: 'GLY-04', chemical_name: 'Glycerin (Refined)', category: 'Raw Material', selling_price: 450.00 },
+            { id: '5', product_code: 'ACE-05', chemical_name: 'Acetone (Industrial)', category: 'Solvent', selling_price: 900.00 },
+            { id: '6', product_code: 'NAOH-06', chemical_name: 'Sodium Hydroxide Flakes', category: 'Base', selling_price: 600.00 }
+        ];
     }
 }
 
