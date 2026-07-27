@@ -13,11 +13,24 @@ const DOM = {
     cartItems: document.getElementById('cartItems'),
     cartCount: document.getElementById('cartCount'),
     cartTotal: document.getElementById('cartTotal'),
-    checkoutBtn: document.getElementById('checkoutBtn')
+    checkoutBtn: document.getElementById('checkoutBtn'),
+    toastContainer: document.getElementById('toastContainer')
 };
+
+function renderSkeletons() {
+    DOM.productsGrid.innerHTML = Array(6).fill().map(() => `
+        <div class="skeleton-card">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-text"></div>
+            <div class="skeleton-text short"></div>
+            <div class="skeleton-button"></div>
+        </div>
+    `).join('');
+}
 
 async function init() {
     setupEventListeners();
+    renderSkeletons();
     const success = await fetchInventory();
     if (success) {
         renderProducts();
@@ -76,7 +89,7 @@ function renderProducts() {
         return;
     }
 
-    DOM.productsGrid.innerHTML = inventory.map(product => {
+    DOM.productsGrid.innerHTML = inventory.map((product, index) => {
         // Fallback for missing properties
         const name = product.chemical_name || 'Unnamed Chemical';
         const code = product.product_code || 'N/A';
@@ -84,7 +97,7 @@ function renderProducts() {
         const category = product.category || 'General';
 
         return `
-            <div class="product-card" style="text-align: center;">
+            <div class="product-card" style="text-align: center; animation-delay: ${index * 0.1}s">
                 ${getDrumHTML(name, product.hazard_class)}
                 <h3 class="product-title">${escapeHTML(name)}</h3>
                 <div class="product-meta">
@@ -100,6 +113,20 @@ function renderProducts() {
     }).join('');
 }
 
+function showToast(message) {
+    if (!DOM.toastContainer) return;
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${escapeHTML(message)}`;
+    DOM.toastContainer.appendChild(toast);
+    
+    setTimeout(() => {
+        if (toast.parentNode === DOM.toastContainer) {
+            DOM.toastContainer.removeChild(toast);
+        }
+    }, 3000);
+}
+
 function addToCart(productId) {
     const product = inventory.find(p => p.id === productId);
     if (!product) return;
@@ -112,7 +139,13 @@ function addToCart(productId) {
     }
     
     updateCartUI();
-    openCart();
+    
+    // Cart bump animation
+    DOM.cartBtn.classList.remove('bump');
+    void DOM.cartBtn.offsetWidth; // trigger reflow
+    DOM.cartBtn.classList.add('bump');
+    
+    showToast(`Added ${product.chemical_name || 'Item'} to cart`);
 }
 
 function removeFromCart(productId) {
